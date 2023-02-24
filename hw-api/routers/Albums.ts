@@ -30,8 +30,7 @@ AlbumsRouter.get('/', async (req, res) => {
 
 AlbumsRouter.get('/:id', async (req, res) => {
   try {
-    const album = await Album.find({artist: req.params.id});
-    console.log(album)
+    const album = await Album.find({artist: req.params.id}).sort({year:-1});
     return res.send(album);
   } catch {
     return res.sendStatus(500);

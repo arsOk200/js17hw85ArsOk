@@ -5,6 +5,9 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import {  CardActionArea, CardActions } from '@mui/material';
 import {Link} from "react-router-dom";
+import {apiUrl} from "../../constants";
+import notImageAvailable from '../../assets/noImageAvailibleImages/No_Image_Available (1).jpg';
+
 interface Props{
   name:string;
   description:string;
@@ -13,13 +16,17 @@ interface Props{
 }
 
 const ArtistItem:React.FC<Props> = ({name,description,id,image}) => {
+  let cardImage = notImageAvailable;
+  if(image) {
+    cardImage = apiUrl+'/'+image;
+  }
     return (
-      <Card sx={{ maxWidth: 350, bgcolor:'#a6a6a6', margin:'20px'}}>
+      <Card sx={{ width: 250, bgcolor:'#a6a6a6', margin:'20px'}}>
         <CardActionArea>
           <CardMedia
             component="img"
             height="200"
-            image={image}
+            image={cardImage}
             alt={name}
           />
           <CardContent>
