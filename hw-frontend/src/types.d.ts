@@ -2,5 +2,11 @@ export interface Artist{
   name:string;
   description:string;
   image:string;
-  id:string;
+  _id:string;
+}
+export interface Album{
+  year:number;
+  image:string;
+  name:string;
+  _id:string;
 }

@@ -14,7 +14,7 @@ interface Props{
 
 const ArtistItem:React.FC<Props> = ({name,description,id,image}) => {
     return (
-      <Card sx={{ maxWidth: 500, bgcolor:'#a6a6a6'}}>
+      <Card sx={{ maxWidth: 350, bgcolor:'#a6a6a6', margin:'20px'}}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -32,7 +32,7 @@ const ArtistItem:React.FC<Props> = ({name,description,id,image}) => {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Link to={'/'+id} style={{padding:'10px', color:'white' ,backgroundColor:'red', borderRadius:'10px'}}>
+          <Link to={'/'+id} style={{padding:'10px', color:'white' ,backgroundColor:'red', borderRadius:'10px', textDecoration:'none'}}>
             More
           </Link>
         </CardActions>

@@ -30,7 +30,8 @@ AlbumsRouter.get('/', async (req, res) => {
 
 AlbumsRouter.get('/:id', async (req, res) => {
   try {
-    const album = await Album.findById(req.params.id).populate('artist', 'name description');
+    const album = await Album.find({artist: req.params.id});
+    console.log(album)
     return res.send(album);
   } catch {
     return res.sendStatus(500);
@@ -40,7 +41,10 @@ AlbumsRouter.get('/:id', async (req, res) => {
 
 AlbumsRouter.post('/', imagesUpload.single('image'), async (req, res, next) => {
   const albumData: AlbumMutation = {
-    name: req.body.name, artist: req.body.artist, image: req.body.image, year: parseFloat(req.body.year),
+    name: req.body.name,
+    artist: req.body.artist,
+    image: req.body.image,
+    year: parseFloat(req.body.year),
   };
   const album = new Album(albumData);
   try {

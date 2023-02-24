@@ -21,9 +21,10 @@ const ArtistsSlice = createSlice({
       state.artistFetching = true;
     });
     builder.addCase(fetchAllArtists.fulfilled, (state,{payload:artists}) => {
-      state.artistFetching = false;
       state.artists = artists;
+      state.artistFetching = false;
     });
+
     builder.addCase(fetchAllArtists.rejected, (state) => {
       state.artistFetching = false;
     });

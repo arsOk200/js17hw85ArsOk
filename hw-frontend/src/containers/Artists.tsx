@@ -20,9 +20,9 @@ const Artists:React.FC = () => {
       {fetching ? <Spinner/> : artists.map((artist) => (
         <ArtistItem description={artist.description}
                     image={artist.image}
-                    id={artist.id}
+                    id={artist._id}
                     name={artist.name}
-                    key={artist.id}
+                    key={artist._id}
         />
       ))}
     </Grid>

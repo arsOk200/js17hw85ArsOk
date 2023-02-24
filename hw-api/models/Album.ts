@@ -6,13 +6,16 @@ const Schema = mongoose.Schema;
 const AlbumSchema = new Schema({
   name: {
     type: String, required: true, unique: true,
-  }, artist: {
+  },
+  artist: {
     type: Schema.Types.ObjectId, ref: 'Artist', required: true, validate: {
       validator: async (value: Types.ObjectId) => Artist.findById(value), message: 'artist does not exist'
     },
-  }, year: {
+    },
+  year: {
     type: Number, required: true,
-  }, image: String,
+  },
+  image: String,
 });
 
 const Album = mongoose.model('Album', AlbumSchema);
