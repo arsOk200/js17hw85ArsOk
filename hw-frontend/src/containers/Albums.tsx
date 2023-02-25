@@ -6,6 +6,7 @@ import {selectAlbums, selectAlbumsFetching} from "../features/albums/AlbumSlice"
 import AlbumsItem from "../components/albums/albumsItem";
 import {useParams} from "react-router-dom";
 import {fetchAlbums} from "../features/albums/albumThunks";
+import Typography from "@mui/material/Typography";
 
 const Albums = () => {
   const dispatch  = useAppDispatch();
@@ -17,7 +18,11 @@ const Albums = () => {
     dispatch(fetchAlbums(id));
   },[dispatch,id])
   return (
-    <Grid container justifyContent={'center'} flexDirection={'row'}>
+    <Grid>
+      <Typography gutterBottom variant="h3">
+        {albums[0].artist.name}
+      </Typography>
+      <Grid container justifyContent={'center'} flexDirection={'row'}>
       {fetching ? <Spinner/> : albums.map((album) => (
         <AlbumsItem year={album.year}
                     image={album.image}
@@ -26,7 +31,8 @@ const Albums = () => {
                     key={album._id}
         />
       ))}
-    </Grid>
+    </Grid></Grid>
+
   );
 };
 
