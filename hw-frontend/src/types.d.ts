@@ -10,3 +10,9 @@ export interface Album{
   name:string;
   _id:string;
 }
+export interface Track{
+  name:string;
+  number:number;
+  duration:string;
+  _id:string;
+}
