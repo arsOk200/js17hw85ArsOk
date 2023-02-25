@@ -9,6 +9,9 @@ export interface Album{
   image:string;
   name:string;
   _id:string;
+  artist:{
+    name:string
+  }
 }
 export interface Track{
   name:string;

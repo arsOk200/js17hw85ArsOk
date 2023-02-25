@@ -7,7 +7,11 @@ export const fetchAllArtists = createAsyncThunk<Artist[]>(
   async () => {
     try {
       const response = await axiosApi.get('/artists');
-      return response.data;
+      const artists = response.data
+      if(!artists) {
+        return [];
+      }
+      return artists;
     } catch (e) {
       console.log(e);
     }

@@ -5,7 +5,6 @@ import {Route, Routes} from "react-router-dom";
 import Artists from "./containers/Artists";
 import Albums from "./containers/Albums";
 import Tracks from "./containers/Tracks";
-
 function App() {
   return (
     <>
@@ -23,5 +22,4 @@ function App() {
     </>
   );
 }
-
 export default App;

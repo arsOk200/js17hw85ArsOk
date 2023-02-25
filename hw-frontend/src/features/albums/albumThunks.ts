@@ -12,4 +12,16 @@ export const fetchAlbums = createAsyncThunk<Album[],string>(
       }
       return albums;
   }
+);
+
+export const fetchOneAlbum = createAsyncThunk<Album,string> (
+  'albums/fetchOneAlbum',
+  async (id) => {
+    const response = await axiosApi.get<Album | null>('/albums/?album='+id);
+    const albums = response.data;
+    if(albums === null) {
+      throw new Error('not found');
+    }
+    return albums;
+  }
 )

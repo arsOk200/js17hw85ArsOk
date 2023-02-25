@@ -11,7 +11,7 @@ const TracksRouter = express.Router();
 TracksRouter.get('/', async (req, res) => {
   if (req.query.album) {
     try {
-      const tracks = await Track.find({album: req.query.album});
+      const tracks = await Track.find({album: req.query.album}).sort({number:1});
       if (!tracks) {
         return res.sendStatus(404);
       }
@@ -48,7 +48,9 @@ TracksRouter.get('/:id', async (req, res) => {
 
 TracksRouter.post('/', async (req, res, next) => {
   const trackData: TrackMutation = {
-    name: req.body.name, duration: req.body.duration, album: req.body.album,
+    name: req.body.name,
+    duration: req.body.duration,
+    album: req.body.album,
     number:parseInt(req.body.number),
   };
   const track = new Track(trackData);

@@ -8,9 +8,9 @@ import mongoose from "mongoose";
 const AlbumsRouter = express.Router();
 
 AlbumsRouter.get('/', async (req, res) => {
-  if (req.query.artist) {
+  if (req.query.album) {
     try {
-      const album = await Album.find({artist: req.query.artist});
+      const album = await Album.findOne({_id: req.query.album}).populate('artist', 'image year name');
       if (!album) {
         return res.sendStatus(404);
       }
@@ -18,7 +18,7 @@ AlbumsRouter.get('/', async (req, res) => {
     } catch {
       return res.sendStatus(500);
     }
-  } else if (!req.query.artist) {
+  } else if (!req.query.album) {
     try {
       const albums = await Album.find();
       return res.send(albums);

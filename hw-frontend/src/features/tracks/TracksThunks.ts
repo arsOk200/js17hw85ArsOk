@@ -5,7 +5,7 @@ import axiosApi from "../../axiosApi";
 export const fetchTracks = createAsyncThunk<Track[],string>(
   'tracks/fetchAllTracks',
   async (id) => {
-    const response = await axiosApi.get('/tracks/?album='+id);
+    const response = await axiosApi.get<Track[] | null>('/tracks/?album='+id);
     const tracks = response.data;
     if(!tracks) {
       return [];

@@ -16,26 +16,26 @@ interface Props {
 const TracksItem:React.FC<Props> = ({number,duration,name}) => {
   const theme = useTheme();
     return (
-      <Card sx={{ display: 'flex', m:3, border:'1px solid #252525', width:'200px'}}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems:'center'}}>
+      <Card sx={{ display: 'flex', m:3 ,border:'1px solid #252525', width:'200px'}}>
+        <Box  sx={{ display: 'flex', flexDirection: 'column', alignItems:'center'}}>
           <CardContent sx={{ flex: '1 0 auto' }}>
-            <Typography component="div" variant="h5">
-              <b>Number:{number}</b>
+            <b>#{number}</b>
+            <Typography component="div" variant="h5" >
               {name}
             </Typography>
-            <Typography variant="subtitle1" color="text.secondary" component="div">
+            <Typography variant="subtitle1" component="div">
               {duration}
             </Typography>
           </CardContent>
-          <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
+          <Box  sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
             <IconButton aria-label="previous">
-              {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
+              {theme.direction === 'rtl' ? <SkipNextIcon/> : <SkipPreviousIcon />}
             </IconButton>
-            <IconButton aria-label="play/pause">
-              <PlayArrowIcon sx={{ height: 38, width: 38 }} />
+            <IconButton aria-label="play/pause" >
+              <PlayArrowIcon sx={{ height: 38, width: 38 }}/>
             </IconButton>
             <IconButton aria-label="next">
-              {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
+              {theme.direction === 'rtl' ? <SkipPreviousIcon  /> : <SkipNextIcon />}
             </IconButton>
           </Box>
         </Box>
