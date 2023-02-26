@@ -16,11 +16,12 @@ const Albums = () => {
 
   useEffect( () => {
     dispatch(fetchAlbums(id));
-  },[dispatch,id])
+  },[dispatch,id]);
+
   return (
     <Grid>
       <Typography gutterBottom variant="h3">
-        {albums[0].artist.name}
+        {albums[0]?.artist.name}
       </Typography>
       <Grid container justifyContent={'center'} flexDirection={'row'}>
       {fetching ? <Spinner/> : albums.map((album) => (
