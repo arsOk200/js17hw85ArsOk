@@ -15,7 +15,9 @@ Track_HistoryRouter.post('/', async (req, res) => {
       return res.status(401).send({error: 'Wrong token!'});
     }
     const track_history = new TrackHistory({
-      user: user._id.toString(), track: req.body.track, datetime: new Date().toISOString(),
+      user: user._id.toString(),
+      track: req.body.track,
+      datetime: new Date().toISOString(),
     })
     await track_history.save();
     res.send(track_history);

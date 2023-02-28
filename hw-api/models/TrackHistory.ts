@@ -11,14 +11,16 @@ const TrackHistorySchema = new Schema({
       validator:async (value:Types.ObjectId) => User.findById(value),
       message:'user does not exist'
     },
-  }, track: {
+  },
+  track: {
     type: String, ref:'Category',
     required:true,
     validate:{
       validator:async (value:Types.ObjectId) => Track.findById(value),
       message:'track does not exist'
     },
-  }, datetime: {
+  },
+  datetime: {
     type: Date, required: true,
   }
 });

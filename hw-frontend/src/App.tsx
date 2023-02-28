@@ -5,6 +5,8 @@ import {Route, Routes} from "react-router-dom";
 import Artists from "./containers/Artists";
 import Albums from "./containers/Albums";
 import Tracks from "./containers/Tracks";
+import Login from "./containers/Login";
+import Register from "./containers/Register";
 function App() {
   return (
     <>
@@ -17,6 +19,8 @@ function App() {
           <Route path='/' element={(<Artists/>)}/>
           <Route path='/:id' element={(<Albums/>)}/>
           <Route path={'/tracks/:id'} element={(<Tracks/>)}/>
+          <Route path='/login' element={(<Login/>)}/>
+          <Route path='/register' element={(<Register/>)}/>
         </Routes>
       </Container>
     </>
