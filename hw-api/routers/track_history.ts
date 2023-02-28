@@ -4,6 +4,24 @@ import TrackHistory from "../models/TrackHistory";
 
 const Track_HistoryRouter = express.Router();
 
+Track_HistoryRouter.get('/', async (req, res) => {
+  const token = req.get('Authorization');
+  if (!token) {
+    return res.status(401).send({error: 'No token present'});
+  }
+  try {
+    const user = await User.findOne({token});
+    if (!user) {
+      return res.status(401).send({error: 'Wrong token!'});
+    }
+
+    const result = await TrackHistory.find({user:user._id.toString()}).sort({datetime:-1}).populate('track', 'name duration album');
+    res.send(result);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 Track_HistoryRouter.post('/', async (req, res) => {
   const token = req.get('Authorization');
   if (!token) {

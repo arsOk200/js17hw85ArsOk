@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
-import {PauseCircleSharp} from "@mui/icons-material";
 interface Props {
   addTrack:React.MouseEventHandler,
   number:number,
@@ -17,11 +16,6 @@ interface Props {
 }
 const TracksItem:React.FC<Props> = ({number,duration,name,addTrack}) => {
   const theme = useTheme();
-  const [iconState, setIconState] = useState(false);
-
-  const click = () => {
-    setIconState(!iconState);
-  }
     return (
       <Card sx={{ display: 'flex', m:3 ,border:'1px solid #252525', width:'200px'}}>
         <Box  sx={{ display: 'flex', flexDirection: 'column', alignItems:'center'}}>
@@ -39,8 +33,7 @@ const TracksItem:React.FC<Props> = ({number,duration,name,addTrack}) => {
               {theme.direction === 'rtl' ? <SkipNextIcon/> : <SkipPreviousIcon />}
             </IconButton>
             <IconButton aria-label="play/pause"   onClick={addTrack}>
-              {iconState ? (<PauseCircleSharp sx={{ height: 38, width: 38 }}/>) :
-                ( <PlayArrowIcon sx={{ height: 38, width: 38 }}/>)}
+                 <PlayArrowIcon sx={{ height: 38, width: 38 }}/>
             </IconButton>
             <IconButton aria-label="next">
               {theme.direction === 'rtl' ? <SkipPreviousIcon  /> : <SkipNextIcon />}

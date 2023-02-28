@@ -23,6 +23,15 @@ export interface RegisterMutation{
   username:string;
   password:string;
 }
+export interface TrackHistory{
+  _id:string;
+  datetime:string;
+  user:string;
+  track:{
+    name:string;
+    duration:string;
+  };
+}
 
 export interface User {
   _id:string;

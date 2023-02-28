@@ -19,7 +19,7 @@ app.use('/albums', AlbumsRouter);
 app.use('/artists', ArtistsRouter);
 app.use('/tracks', TracksRouter);
 app.use('/users', UsersRouter);
-app.use('/track_history', Track_HistoryRouter);
+app.use('/trackHistory', Track_HistoryRouter);
 
 const run = async () => {
   mongoose.set("strictQuery", false);

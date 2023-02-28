@@ -7,6 +7,7 @@ import Albums from "./containers/Albums";
 import Tracks from "./containers/Tracks";
 import Login from "./containers/Login";
 import Register from "./containers/Register";
+import TrackHistory from "./containers/trackHistory";
 function App() {
   return (
     <>
@@ -21,6 +22,7 @@ function App() {
           <Route path={'/tracks/:id'} element={(<Tracks/>)}/>
           <Route path='/login' element={(<Login/>)}/>
           <Route path='/register' element={(<Register/>)}/>
+          <Route path='/track-history' element={(<TrackHistory/>)}/>
         </Routes>
       </Container>
     </>

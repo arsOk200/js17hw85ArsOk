@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Menu, MenuItem } from '@mui/material';
 import {User} from "../../types";
+import {NavLink} from "react-router-dom";
 
 
 interface Props {
@@ -33,7 +34,9 @@ const UserMenu: React.FC<Props> = ({user}) => {
       >
         <MenuItem>Profile</MenuItem>
         <MenuItem>My account</MenuItem>
+        <MenuItem><NavLink to='/track-history'>Track History</NavLink></MenuItem>
         <MenuItem>Logout</MenuItem>
+
       </Menu>
     </>
   );
