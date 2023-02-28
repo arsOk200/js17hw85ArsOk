@@ -13,7 +13,7 @@ const TrackHistorySchema = new Schema({
     },
   },
   track: {
-    type: String, ref:'Category',
+    type: String, ref:'Track',
     required:true,
     validate:{
       validator:async (value:Types.ObjectId) => Track.findById(value),

@@ -4,7 +4,7 @@ import {Navigate, useParams} from "react-router-dom";
 import TracksItem from "../components/tracks/tracksItem";
 import {Grid} from "@mui/material";
 import {selectTracks, selectTracksFetching} from "../features/tracks/TracksSlice";
-import {fetchTracks} from "../features/tracks/TracksThunks";
+import {addTrackToHistory, fetchTracks} from "../features/tracks/TracksThunks";
 import Spinner from "../components/Spinner/Spinner";
 import { selectOneAlbum, selectOneAlbumFetching} from "../features/albums/AlbumSlice";
 import {fetchOneAlbum} from "../features/albums/albumThunks";
@@ -30,6 +30,10 @@ const Tracks:React.FC = () => {
    dispatch(fetchTracks(id));
    dispatch(fetchOneAlbum(id));
   },[dispatch, id]);
+
+  const addTrack = async (id:string) => {
+    dispatch(addTrackToHistory(id));
+  }
 
   if(!user) {
     return <Navigate to='login'/>
@@ -60,6 +64,7 @@ const Tracks:React.FC = () => {
           <TracksItem duration={track.duration}
                       number={track.number}
                       name={track.name}
+                      addTrack={()=> addTrack(track._id)}
                       key={track._id}
           />
         ))}

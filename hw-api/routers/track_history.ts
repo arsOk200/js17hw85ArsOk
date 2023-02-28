@@ -14,6 +14,15 @@ Track_HistoryRouter.post('/', async (req, res) => {
     if (!user) {
       return res.status(401).send({error: 'Wrong token!'});
     }
+    const isMatchTrack = await TrackHistory.findOne({track:req.body.track, user:user._id.toString()});
+    if(isMatchTrack){
+      return await TrackHistory.updateOne({
+            user:user._id.toString(),
+             track: req.body.track,
+
+           },
+           {datetime: new Date().toISOString()});
+    }
     const track_history = new TrackHistory({
       user: user._id.toString(),
       track: req.body.track,
