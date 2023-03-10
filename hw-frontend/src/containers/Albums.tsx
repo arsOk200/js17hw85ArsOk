@@ -4,14 +4,13 @@ import {Grid} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
 import {selectAlbums, selectAlbumsFetching} from "../features/albums/AlbumSlice";
 import AlbumsItem from "../components/albums/albumsItem";
-import {Navigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {fetchAlbums} from "../features/albums/albumThunks";
 import Typography from "@mui/material/Typography";
-import {selectUser} from "../features/user/userSlice";
 
 const Albums = () => {
   const dispatch  = useAppDispatch();
-  const user  = useAppSelector(selectUser);
+
   const {id} = useParams() as { id: string };
   const fetching = useAppSelector(selectAlbumsFetching);
   const albums = useAppSelector(selectAlbums);
@@ -20,9 +19,6 @@ const Albums = () => {
     dispatch(fetchAlbums(id));
   },[dispatch,id]);
 
-  if(!user) {
-    return <Navigate to='/login'/>
-  }
 
   return (
     <Grid>

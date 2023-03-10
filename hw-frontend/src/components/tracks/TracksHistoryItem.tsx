@@ -33,7 +33,7 @@ const TracksHistoryItem:React.FC<Props> = ({datetime,duration,name}) => {
   );
   return (
     <div>
-      <Box sx={{ minWidth: 275 }}>
+      <Box sx={{ minWidth: 275, m:1 }}>
       <Card variant="outlined">{card}</Card>
       </Box>
     </div>

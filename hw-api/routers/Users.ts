@@ -33,4 +33,24 @@ UsersRouter.post('/sessions', async (req, res) => {
   return res.send({message: 'Username and password correct!', user});
 });
 
+
+UsersRouter.delete('/sessions', async (req,res,next) => {
+  try {
+    const token = req.get('Authorization');
+    const success = {message:'ok'};
+    if(!token) {
+      return res.send(success);
+    }
+    const user = await User.findOne({token});
+    if(!user) {
+      return res.send(success);
+    }
+    user.generateToken();
+    await user.save();
+    return res.send(success);
+  }catch (e){
+    return next(e)
+  }
+});
+
 export default UsersRouter;

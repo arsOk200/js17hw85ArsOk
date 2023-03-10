@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../app/hooks";
-import {Navigate, useParams} from "react-router-dom";
+import { useParams} from "react-router-dom";
 import TracksItem from "../components/tracks/tracksItem";
 import {Grid} from "@mui/material";
 import {selectTracks, selectTracksFetching} from "../features/tracks/TracksSlice";
@@ -12,11 +12,8 @@ import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
 import notImageAvailable from "../assets/noImageAvailibleImages/No_Image_Available (1).jpg";
 import {apiUrl} from "../constants";
-import {selectUser} from "../features/user/userSlice";
-
 const Tracks:React.FC = () => {
   const dispatch  = useAppDispatch();
-  const user = useAppSelector(selectUser);
   const {id} = useParams() as { id: string };
   const tracks = useAppSelector(selectTracks);
   const album = useAppSelector(selectOneAlbum);
@@ -33,10 +30,6 @@ const Tracks:React.FC = () => {
 
   const addTrack = async (id:string) => {
     dispatch(addTrackToHistory(id));
-  }
-
-  if(!user) {
-    return <Navigate to='login'/>
   }
 
   return (

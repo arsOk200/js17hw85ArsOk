@@ -16,10 +16,10 @@ export const fetchTracks = createAsyncThunk<Track[],string>(
   }
 );
 
-export const fetchTrackHistory = createAsyncThunk<TrackHistory[],string>(
+export const fetchTrackHistory = createAsyncThunk<TrackHistory[]>(
   'tracks/history',
-    async (token) => {
-        const response = await axiosApi.get<TrackHistory[]>('/trackHistory',{headers:{'Authorization':token}});
+    async () => {
+        const response = await axiosApi.get<TrackHistory[]>('/trackHistory');
         const tracks = response.data;
         if(!tracks) {
           return [];
@@ -34,7 +34,7 @@ export const addTrackToHistory = createAsyncThunk<void, string, {state:RootState
   async (id, {getState})=> {
     const user = getState().users.user;
     if(user) {
-      return axiosApi.post('/trackHistory',{track:id}, {headers:{'Authorization':user.token}});
+      await axiosApi.post('/trackHistory',{track:id}, {headers:{'Authorization':user.token}});
     }
   }
 )
