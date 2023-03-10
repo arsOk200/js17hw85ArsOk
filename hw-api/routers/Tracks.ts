@@ -1,11 +1,9 @@
 import express from "express";
 import Track from "../models/Track";
-import {TrackMutation} from "../types";
 import mongoose from "mongoose";
-
 import Album from "../models/Album";
-
-
+import auth from "../middleware/auth";
+import permit from "../middleware/permit";
 const TracksRouter = express.Router();
 
 TracksRouter.get('/', async (req, res) => {
@@ -46,16 +44,14 @@ TracksRouter.get('/:id', async (req, res) => {
   }
 });
 
-TracksRouter.post('/', async (req, res, next) => {
-  const trackData: TrackMutation = {
+TracksRouter.post('/', auth,async (req, res, next) => {
+  try {
+  const track = await Track.create({
     name: req.body.name,
     duration: req.body.duration,
     album: req.body.album,
     number:parseInt(req.body.number),
-  };
-  const track = new Track(trackData);
-  try {
-    await track.save();
+  });
     return res.send(track);
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
@@ -63,6 +59,15 @@ TracksRouter.post('/', async (req, res, next) => {
     } else {
       return next(e);
     }
+  }
+});
+
+TracksRouter.delete('/:id',auth,permit('admin'), async (req,res,next) => {
+  try{
+    const track = await Track.deleteOne({_id:req.params.id});
+    return res.send(track);
+  }catch (e){
+    return next(e);
   }
 });
 

@@ -1,8 +1,10 @@
 import express from "express";
 import Album from "../models/Album";
 import {imagesUpload} from "../multer";
-import {AlbumMutation} from "../types";
 import mongoose from "mongoose";
+import auth from "../middleware/auth";
+import permit from "../middleware/permit";
+
 
 
 const AlbumsRouter = express.Router();
@@ -38,16 +40,14 @@ AlbumsRouter.get('/:id', async (req, res) => {
 
 });
 
-AlbumsRouter.post('/', imagesUpload.single('image'), async (req, res, next) => {
-  const albumData: AlbumMutation = {
+AlbumsRouter.post('/', auth,imagesUpload.single('image'), async (req, res, next) => {
+  try {
+  const album = await Album.create({
     name: req.body.name,
     artist: req.body.artist,
     image: req.body.image,
     year: parseFloat(req.body.year),
-  };
-  const album = new Album(albumData);
-  try {
-    await album.save();
+  });
     return res.send(album);
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
@@ -55,6 +55,15 @@ AlbumsRouter.post('/', imagesUpload.single('image'), async (req, res, next) => {
     } else {
       return next(e);
     }
+  }
+});
+
+AlbumsRouter.delete('/:id',auth,permit('admin'), async (req,res,next) => {
+  try{
+    const album = await Album.deleteOne({_id:req.params.id});
+    return res.send(album);
+  }catch (e){
+    return next(e);
   }
 });
 

@@ -1,8 +1,9 @@
 import express from "express";
 import Artist from "../models/Artist";
 import {imagesUpload} from "../multer";
-import {ArtistMutation} from "../types";
 import mongoose from "mongoose";
+import auth from "../middleware/auth";
+import permit from "../middleware/permit";
 
 
 const ArtistsRouter = express.Router();
@@ -15,15 +16,13 @@ ArtistsRouter.get('/', async (req, res) => {
     return res.sendStatus(500);
   }
 });
-ArtistsRouter.post('/', imagesUpload.single('image'), async (req, res, next) => {
-  const artistData: ArtistMutation = {
+ArtistsRouter.post('/',auth, imagesUpload.single('image'), async (req, res, next) => {
+  try {
+  const artist = await Artist.create({
     name: req.body.name,
     description: req.body.description,
     image: req.body.image,
-  };
-  const artist = new Artist(artistData);
-  try {
-    await artist.save();
+  });
     return res.send(artist);
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
@@ -33,6 +32,15 @@ ArtistsRouter.post('/', imagesUpload.single('image'), async (req, res, next) => 
     }
   }
 });
+
+ArtistsRouter.delete('/:id',auth,permit('admin'), async (req,res,next) => {
+  try{
+    const artist = await Artist.deleteOne({_id:req.params.id});
+    return res.send(artist);
+  }catch (e){
+    return next(e);
+  }
+})
 
 
 export default ArtistsRouter;

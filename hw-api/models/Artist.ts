@@ -8,6 +8,12 @@ const ArtistSchema = new Schema({
   },
   image: String,
   description: String,
+  isPublished:{
+    type:Boolean,
+    required:true,
+    default:false,
+    enum:[false,true]
+  }
 });
 
 const Artist = mongoose.model('Artist', ArtistSchema);
