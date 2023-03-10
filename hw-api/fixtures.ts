@@ -24,17 +24,20 @@ const run = async () => {
   const Eminem = await Artist.create({
     name: "Eminem",
     description: "Raper",
-    image:"fixtures/Eminem.jpeg"
+    image:"fixtures/Eminem.jpeg",
+    isPublished: false,
   })
   const Nirvana = await Artist.create({
     name: "Nirvana",
     description: "Band",
-    image:"fixtures/Nirvana.jpeg"
+    image:"fixtures/Nirvana.jpeg",
+    isPublished: false,
   });
   const TwentyOnePilots = await Artist.create({
     name: "Twenty One Pilots",
     description: "Band",
-    image:"fixtures/TwentyOnePilots.jpg"
+    image:"fixtures/TwentyOnePilots.jpg",
+    isPublished: false,
   });
 
 
@@ -58,13 +61,16 @@ const run = async () => {
    artist: Nirvana._id,
    name:"NeverMind",
    image: "fixtures/Nevermind.jpg",
-    year: 1991
+    year: 1991,
+    isPublished:false,
+
   });
   const InUtero = await Album.create({
     artist: Nirvana._id,
     name:"In Utero",
     image: "fixtures/InUtero.jpg",
-    year: 1993
+    year: 1993,
+    isPublished:false,
   });
 
 
@@ -72,13 +78,15 @@ const run = async () => {
    artist: TwentyOnePilots._id,
    name:"BlurryFace",
    image: "fixtures/BlurryFace.jpg",
-    year: 2015
+    year: 2015,
+    isPublished:false
  });
   const Trench = await Album.create({
     artist: TwentyOnePilots._id,
     name:"BlurryFace",
     image: "fixtures/Trench.jpg",
-    year: 2018
+    year: 2018,
+    isPublished:false,
   });
 
  await Track.create({
@@ -86,6 +94,7 @@ const run = async () => {
    duration: '5:12',
    album: TheEminemShow._id,
    number: 1,
+
     },{
    name:"Till I Collapse",
    duration: '4:58',

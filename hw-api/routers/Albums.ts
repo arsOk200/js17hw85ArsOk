@@ -7,6 +7,7 @@ import permit from "../middleware/permit";
 
 
 
+
 const AlbumsRouter = express.Router();
 
 AlbumsRouter.get('/', async (req, res) => {
@@ -63,6 +64,21 @@ AlbumsRouter.delete('/:id',auth,permit('admin'), async (req,res,next) => {
     const album = await Album.deleteOne({_id:req.params.id});
     return res.send(album);
   }catch (e){
+    console.log(e);
+    return next(e);
+  }
+});
+AlbumsRouter.patch('/:id/togglePublished',auth,permit('admin') ,async (req,res,next) => {
+  try {
+    const album = await Album.findOne({_id:req.params.id});
+    if(album) {
+      const upAlbum = await Album.findOneAndUpdate({_id:req.params.id},{isPublished:!album.isPublished})
+     return  res.send(upAlbum);
+    } else {
+      return res.status(404).send({'message':'not found'});
+    }
+  }catch (e){
+    console.log(e);
     return next(e);
   }
 });

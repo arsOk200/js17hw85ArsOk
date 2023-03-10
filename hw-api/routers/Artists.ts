@@ -6,6 +6,7 @@ import auth from "../middleware/auth";
 import permit from "../middleware/permit";
 
 
+
 const ArtistsRouter = express.Router();
 
 ArtistsRouter.get('/', async (req, res) => {
@@ -38,9 +39,25 @@ ArtistsRouter.delete('/:id',auth,permit('admin'), async (req,res,next) => {
     const artist = await Artist.deleteOne({_id:req.params.id});
     return res.send(artist);
   }catch (e){
+    console.log(e);
     return next(e);
   }
-})
+});
+
+ArtistsRouter.patch('/:id/togglePublished',auth,permit('admin') ,async (req,res,next) => {
+  try {
+    const artist = await Artist.findOne({_id:req.params.id});
+    if(artist) {
+      const upArtist = await Artist.findOneAndUpdate({_id:req.params.id},{isPublished:!artist.isPublished})
+      return  res.send(upArtist);
+    } else {
+      return res.status(404).send({'message':'not found'});
+    }
+  }catch (e){
+    console.log(e);
+    return next(e);
+  }
+});
 
 
 export default ArtistsRouter;

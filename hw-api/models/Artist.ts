@@ -12,7 +12,6 @@ const ArtistSchema = new Schema({
     type:Boolean,
     required:true,
     default:false,
-    enum:[false,true]
   }
 });
 

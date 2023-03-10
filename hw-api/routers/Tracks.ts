@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import Album from "../models/Album";
 import auth from "../middleware/auth";
 import permit from "../middleware/permit";
+
 const TracksRouter = express.Router();
 
 TracksRouter.get('/', async (req, res) => {
@@ -67,6 +68,22 @@ TracksRouter.delete('/:id',auth,permit('admin'), async (req,res,next) => {
     const track = await Track.deleteOne({_id:req.params.id});
     return res.send(track);
   }catch (e){
+    console.log(e);
+    return next(e);
+  }
+});
+
+TracksRouter.patch('/:id/togglePublished',auth, permit('admin'),async (req,res,next) => {
+  try {
+    const track = await Track.findOne({_id:req.params.id});
+    if(track) {
+      const upTrack = await Track.findOneAndUpdate({_id:req.params.id},{isPublished:!track.isPublished})
+      return  res.send(upTrack);
+    } else {
+      return res.status(404).send({'message':'not found'});
+    }
+  }catch (e){
+    console.log(e);
     return next(e);
   }
 });

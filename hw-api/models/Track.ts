@@ -28,8 +28,7 @@ const TrackSchema = new Schema({
     type:Boolean,
     required:true,
     default:false,
-    enum:[false,true]
-  }
+  },
 });
 
 const Track = mongoose.model('Track', TrackSchema);
