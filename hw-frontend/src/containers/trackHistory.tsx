@@ -7,20 +7,16 @@ import Spinner from "../components/Spinner/Spinner";
 import {Grid, Typography} from "@mui/material";
 import TracksHistoryItem from "../components/tracks/TracksHistoryItem";
 import {Navigate} from "react-router-dom";
-import {User} from "../types";
 
 const TrackHistory = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const history = useAppSelector(selectHistory);
   const fetching = useAppSelector(selectHistoryLoading);
-  let confirmUser:User;
-if(user) {
-  confirmUser = user
-}
+
 
   useEffect(() => {
-    dispatch(fetchTrackHistory(confirmUser.token));
+    dispatch(fetchTrackHistory());
   },[dispatch]);
 
   if(!user) {
