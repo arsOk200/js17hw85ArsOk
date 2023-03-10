@@ -40,7 +40,10 @@ const UserMenu: React.FC<Props> = ({user}) => {
       >
         <MenuItem>Profile</MenuItem>
         <MenuItem>My account</MenuItem>
-        <MenuItem><NavLink style={{color:'black', textDecoration:'none'}} to='/track-history'>Track History</NavLink></MenuItem>
+        <MenuItem component={NavLink} to='/track-history'>Track History</MenuItem>
+        <MenuItem component={NavLink} to='/new-artist'>Add artist</MenuItem>
+        <MenuItem component={NavLink} to='/new-album'>Add album</MenuItem>
+        <MenuItem component={NavLink} to='/new-track'>Add track</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
 
       </Menu>

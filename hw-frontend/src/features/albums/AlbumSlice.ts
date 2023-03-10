@@ -1,6 +1,6 @@
 import {Album} from "../../types";
 import {createSlice} from "@reduxjs/toolkit";
-import {fetchAlbums, fetchOneAlbum} from "./albumThunks";
+import {createAlbum, fetchAlbums, fetchOneAlbum} from "./albumThunks";
 import {RootState} from "../../app/store";
 
 interface AlbumState {
@@ -8,12 +8,14 @@ interface AlbumState {
   albumFetching:boolean;
   oneAlbum:Album | null;
   oneAlbumFetching:boolean;
+  albumCreating:boolean;
 }
 const initialState:AlbumState = {
   albums: [],
   oneAlbum:null,
   oneAlbumFetching:false,
   albumFetching: false,
+  albumCreating:false,
 }
 
 const AlbumSlice = createSlice({
@@ -42,6 +44,17 @@ const AlbumSlice = createSlice({
     builder.addCase(fetchOneAlbum.rejected, (state) => {
       state.oneAlbumFetching = false;
     });
+
+
+    builder.addCase(createAlbum.pending, (state) => {
+      state.albumCreating = true;
+    });
+    builder.addCase(createAlbum.fulfilled, (state) => {
+      state.albumCreating = false;
+    });
+    builder.addCase(createAlbum.rejected, (state) => {
+      state.albumCreating = false;
+    });
   },
 });
 
@@ -50,3 +63,4 @@ export const selectAlbums = (state:RootState) => state.albums.albums;
 export const selectOneAlbum = (state:RootState) => state.albums.oneAlbum;
 export const selectOneAlbumFetching = (state:RootState) => state.albums.oneAlbumFetching;
 export const selectAlbumsFetching = (state:RootState) => state.albums.albumFetching;
+export const selectAlbumCreating = (state:RootState) => state.albums.albumCreating;

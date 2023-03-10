@@ -25,19 +25,19 @@ const run = async () => {
     name: "Eminem",
     description: "Raper",
     image:"fixtures/Eminem.jpeg",
-    isPublished: false,
+    isPublished: true,
   })
   const Nirvana = await Artist.create({
     name: "Nirvana",
     description: "Band",
     image:"fixtures/Nirvana.jpeg",
-    isPublished: false,
+    isPublished: true,
   });
   const TwentyOnePilots = await Artist.create({
     name: "Twenty One Pilots",
     description: "Band",
     image:"fixtures/TwentyOnePilots.jpg",
-    isPublished: false,
+    isPublished: true,
   });
 
 

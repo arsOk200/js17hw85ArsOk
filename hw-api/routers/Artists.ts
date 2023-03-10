@@ -11,7 +11,7 @@ const ArtistsRouter = express.Router();
 
 ArtistsRouter.get('/', async (req, res) => {
   try {
-      const artists = await Artist.find();
+      const artists = await Artist.find({isPublished: true});
       return res.send(artists);
   } catch {
     return res.sendStatus(500);
@@ -22,8 +22,9 @@ ArtistsRouter.post('/',auth, imagesUpload.single('image'), async (req, res, next
   const artist = await Artist.create({
     name: req.body.name,
     description: req.body.description,
-    image: req.body.image,
+    image: req.file ? req.file.filename : null,
   });
+
     return res.send(artist);
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {

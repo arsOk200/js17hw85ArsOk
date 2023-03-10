@@ -62,3 +62,14 @@ export interface LoginMutation{
 export interface GlobalError{
   error:string;
 }
+export interface ArtistMutation{
+  description:string;
+  name:string;
+  image:File | null;
+}
+export interface AlbumMutation{
+  name:string;
+  artist: string,
+  image: File | null,
+  year: string,
+}
