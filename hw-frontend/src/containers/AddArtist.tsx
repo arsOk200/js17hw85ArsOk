@@ -15,8 +15,7 @@ const AddArtist = () => {
 
   const onFormSubmit = async (ArtistMutation:ArtistMutation) => {
     try {
-     await dispatch(createArtist(ArtistMutation));
-
+     await dispatch(createArtist(ArtistMutation)).unwrap();
       navigate('/');
     } catch (e) {
       console.log(e);

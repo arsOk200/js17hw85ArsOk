@@ -11,7 +11,7 @@ const ArtistsRouter = express.Router();
 
 ArtistsRouter.get('/', async (req, res) => {
   try {
-      const artists = await Artist.find({isPublished: true});
+      const artists = await Artist.find();
       return res.send(artists);
   } catch {
     return res.sendStatus(500);

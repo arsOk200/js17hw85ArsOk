@@ -48,8 +48,9 @@ const NewAlbum:React.FC<Props> = ({onSubmit,creating}) => {
     <form autoComplete="off"
           onSubmit={submitForm}>
       <Grid container direction="column" spacing={2}>
-        <Grid item xs>
+        <Grid item width={'10%'}>
           <TextField
+            fullWidth
             select
             id="artist"
             label="Artist"
@@ -75,6 +76,7 @@ const NewAlbum:React.FC<Props> = ({onSubmit,creating}) => {
         </Grid>
         <Grid item xs>
           <TextField id="year" label="Year"
+                     type={"number"}
                      value={state.year} onChange={inputChange}
                      name="year" required/>
         </Grid>

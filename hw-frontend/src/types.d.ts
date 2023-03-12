@@ -73,3 +73,9 @@ export interface AlbumMutation{
   image: File | null,
   year: string,
 }
+export interface TrackMutation{
+  name:string;
+  duration:string;
+  album:string;
+  number:string;
+}

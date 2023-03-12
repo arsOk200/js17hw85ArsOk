@@ -3,7 +3,7 @@ import {Album, AlbumMutation} from "../../types";
 import axiosApi from "../../axiosApi";
 
 export const fetchAlbums = createAsyncThunk<Album[],string>(
-  'albums/fetchAllAlbums',
+  'albums/fetchAllAlbumsWithId',
   async (id) => {
       const response = await axiosApi.get<Album[] | null>('/albums/'+id);
       const albums = response.data
@@ -11,6 +11,18 @@ export const fetchAlbums = createAsyncThunk<Album[],string>(
         return [];
       }
       return albums;
+  }
+);
+
+export const fetchAllAlbums = createAsyncThunk<Album[],void>(
+  'albums/fetchAllAlbums',
+  async () => {
+    const response = await axiosApi.get<Album[] | null>('/albums/');
+    const albums = response.data
+    if(!albums) {
+      return [];
+    }
+    return albums;
   }
 );
 

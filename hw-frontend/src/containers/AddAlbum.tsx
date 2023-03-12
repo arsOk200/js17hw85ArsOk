@@ -3,18 +3,18 @@ import {Typography} from "@mui/material";
 import NewAlbum from "../components/albums/NewAlbum";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
 import {useNavigate} from "react-router-dom";
-import {selectArtistCreating} from "../features/artists/ArtistsSlice";
 import {AlbumMutation} from "../types";
 import {createAlbum} from "../features/albums/albumThunks";
+import {selectAlbumCreating} from "../features/albums/AlbumSlice";
 
 const AddAlbum = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const creating = useAppSelector(selectArtistCreating);
+  const creating = useAppSelector(selectAlbumCreating);
 
   const onFormSubmit = async (album:AlbumMutation) => {
     try {
-      await dispatch(createAlbum(album));
+      await dispatch(createAlbum(album)).unwrap();
       navigate('/');
     } catch (e) {
       console.log(e);
