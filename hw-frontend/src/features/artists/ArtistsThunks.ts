@@ -33,4 +33,11 @@ export const createArtist = createAsyncThunk<void, ArtistMutation>(
     await axiosApi.post('/artists', formData);
 
   }
+);
+
+export const PublishArtist = createAsyncThunk<void ,string>(
+  'artist/publish',
+  async (id) => {
+    await axiosApi.patch( '/artists/'+id+ '/togglePublished')
+  }
 )

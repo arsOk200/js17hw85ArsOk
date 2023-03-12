@@ -3,7 +3,7 @@ import {Grid} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
 import ArtistItem from "../components/artists/artistItem";
 import {selectArtists, selectArtistsFetching} from "../features/artists/ArtistsSlice";
-import {fetchAllArtists} from "../features/artists/ArtistsThunks";
+import {fetchAllArtists, PublishArtist} from "../features/artists/ArtistsThunks";
 import Spinner from "../components/Spinner/Spinner";
 
 
@@ -16,6 +16,11 @@ const Artists:React.FC = () => {
     dispatch(fetchAllArtists());
   },[dispatch]);
 
+  const publish = async (id:string) => {
+   await dispatch(PublishArtist(id));
+   await dispatch(fetchAllArtists());
+  }
+
 
 
   return (
@@ -26,6 +31,8 @@ const Artists:React.FC = () => {
                     id={artist._id}
                     name={artist.name}
                     key={artist._id}
+                    isPublished={artist.isPublished}
+                    publish={() => publish(artist._id)}
         />
       ))}
     </Grid>

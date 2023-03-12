@@ -3,26 +3,42 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import {  CardActionArea, CardActions } from '@mui/material';
+import {Button, CardActionArea, CardActions, Grid} from '@mui/material';
 import {Link} from "react-router-dom";
 import {apiUrl} from "../../constants";
 import notImageAvailable from '../../assets/noImageAvailibleImages/No_Image_Available (1).jpg';
+import {useAppSelector} from "../../app/hooks";
+import {selectUser} from "../../features/user/userSlice";
 
 interface Props{
   name:string;
   description:string;
   id:string;
   image:string;
+  isPublished:boolean;
+  publish:React.MouseEventHandler;
 }
 
-const ArtistItem:React.FC<Props> = ({name,description,id,image}) => {
+const ArtistItem:React.FC<Props> = ({name,description,id,image,isPublished,publish}) => {
+  const user =  useAppSelector(selectUser);
   let cardImage = notImageAvailable;
   if(image) {
     cardImage = apiUrl+'/'+image;
   }
+
+  let buttons;
+
+  if(user?.role === 'admin') {
+    buttons = (<Grid container justifyContent={'space-around'}  alignItems={'center'}>
+      {isPublished ? (<Button onClick={publish} type={'button'} color={'warning'} variant={'contained'}>Not publish</Button>) :
+        <Button type={'button'} onClick={publish} color={'success'} variant={'contained'}>Publish</Button>}
+
+      <Button type={'button'} color={'error'} variant={'contained'}>Delete</Button>
+    </Grid>);
+  }
     return (
       <Card sx={{ width: 250, bgcolor:'#a6a6a6', margin:'20px'}}>
-        <CardActionArea>
+        <CardActionArea component={Link} to={'/'+id}>
           <CardMedia
             component="img"
             height="200"
@@ -39,9 +55,7 @@ const ArtistItem:React.FC<Props> = ({name,description,id,image}) => {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Link to={'/'+id} style={{padding:'10px', color:'white' ,backgroundColor:'red', borderRadius:'10px', textDecoration:'none'}}>
-            More
-          </Link>
+          {buttons}
         </CardActions>
       </Card>
     )

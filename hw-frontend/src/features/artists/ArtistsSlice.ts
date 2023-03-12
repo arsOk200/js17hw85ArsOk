@@ -1,17 +1,19 @@
 import {Artist} from "../../types";
 import {createSlice} from "@reduxjs/toolkit";
 import {RootState} from "../../app/store";
-import {createArtist, fetchAllArtists} from "./ArtistsThunks";
+import {createArtist, fetchAllArtists, PublishArtist} from "./ArtistsThunks";
 
 interface ArtistState {
   artists:Artist[];
   artistFetching:boolean;
   artistCreating:boolean;
+  artistPublish:boolean;
 }
 const initialState :ArtistState ={
   artists:[],
   artistFetching:false,
   artistCreating:false,
+  artistPublish:false,
 }
 
 const ArtistsSlice = createSlice({
@@ -39,6 +41,16 @@ const ArtistsSlice = createSlice({
     builder.addCase(createArtist.rejected, (state) => {
       state.artistCreating = false;
     });
+
+    builder.addCase(PublishArtist.pending, (state) => {
+      state.artistPublish = true;
+    })
+    builder.addCase(PublishArtist.fulfilled, (state) => {
+      state.artistPublish = false;
+    })
+    builder.addCase(PublishArtist.rejected, (state) => {
+      state.artistPublish = false;
+    })
   },
 });
 
@@ -46,4 +58,5 @@ export const ArtistsReducer = ArtistsSlice.reducer;
 export const selectArtists = (state:RootState) => state.artists.artists
 export const selectArtistCreating = (state:RootState) => state.artists.artistCreating;
 export const selectArtistsFetching = (state:RootState) => state.artists.artistFetching;
+export const selectArtistPublish = (state:RootState) => state.artists.artistPublish;
 

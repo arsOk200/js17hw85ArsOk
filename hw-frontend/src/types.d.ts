@@ -3,6 +3,7 @@ export interface Artist{
   description:string;
   image:string;
   _id:string;
+  isPublished:boolean;
 }
 export interface Album{
   year:number;
@@ -37,6 +38,7 @@ export interface User {
   _id:string;
   username:string;
   token:string;
+  role:string;
 }
 export interface RegisterResponse {
   message:string;
