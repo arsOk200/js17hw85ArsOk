@@ -9,17 +9,16 @@ import Album from "../models/Album";
 import Track from "../models/Track";
 
 
-
 const ArtistsRouter = express.Router();
 
 ArtistsRouter.get('/', async (req, res) => {
   try {
     const token = req.get('Authorization');
     const user = await User.findOne({token});
-    if(user) {
-      if(user.role === 'admin') {
+    if (user) {
+      if (user.role === 'admin') {
         const artists = await Artist.find();
-           return res.send(artists);
+        return res.send(artists);
       }
     }
     const artists = await Artist.find({isPublished: true});
@@ -29,13 +28,11 @@ ArtistsRouter.get('/', async (req, res) => {
     return res.sendStatus(500);
   }
 });
-ArtistsRouter.post('/',auth, imagesUpload.single('image'), async (req, res, next) => {
+ArtistsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next) => {
   try {
-  const artist = await Artist.create({
-    name: req.body.name,
-    description: req.body.description,
-    image: req.file ? req.file.filename : null,
-  });
+    const artist = await Artist.create({
+      name: req.body.name, description: req.body.description, image: req.file ? req.file.filename : null,
+    });
 
     return res.send(artist);
   } catch (e) {
@@ -47,32 +44,32 @@ ArtistsRouter.post('/',auth, imagesUpload.single('image'), async (req, res, next
   }
 });
 
-ArtistsRouter.delete('/:id',auth,permit('admin'), async (req,res,next) => {
-  try{
+ArtistsRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
+  try {
     const album = await Album.findOne({artist: req.params.id});
 
-    if(album){
+    if (album) {
       await Track.deleteMany({album: album._id.toString()});
     }
-    const artist = await Artist.deleteOne({_id:req.params.id});
+    const artist = await Artist.deleteOne({_id: req.params.id});
     await Album.deleteMany({artist: req.params.id})
     return res.send(artist);
-  }catch (e){
+  } catch (e) {
     console.log(e);
     return next(e);
   }
 });
 
-ArtistsRouter.patch('/:id/togglePublished',auth,permit('admin') ,async (req,res,next) => {
+ArtistsRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, res, next) => {
   try {
-    const artist = await Artist.findOne({_id:req.params.id});
-    if(artist) {
-      const upArtist = await Artist.findOneAndUpdate({_id:req.params.id},{isPublished:!artist.isPublished})
-      return  res.send(upArtist);
+    const artist = await Artist.findOne({_id: req.params.id});
+    if (artist) {
+      const upArtist = await Artist.findOneAndUpdate({_id: req.params.id}, {isPublished: !artist.isPublished})
+      return res.send(upArtist);
     } else {
-      return res.status(404).send({'message':'not found'});
+      return res.status(404).send({'message': 'not found'});
     }
-  }catch (e){
+  } catch (e) {
     console.log(e);
     return next(e);
   }

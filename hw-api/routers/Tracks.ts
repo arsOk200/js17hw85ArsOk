@@ -13,16 +13,16 @@ TracksRouter.get('/', async (req, res) => {
     try {
       const token = req.get('Authorization');
       const user = await User.findOne({token});
-      if(user) {
-        if(user.role === 'admin') {
-          const tracks = await Track.find({album: req.query.album}).sort({number:1});
+      if (user) {
+        if (user.role === 'admin') {
+          const tracks = await Track.find({album: req.query.album}).sort({number: 1});
           if (!tracks) {
             return res.sendStatus(404);
           }
           return res.send(tracks);
         }
       }
-      const tracks = await Track.find({album: req.query.album,isPublished: true}).sort({number:1});
+      const tracks = await Track.find({album: req.query.album, isPublished: true}).sort({number: 1});
       if (!tracks) {
         return res.sendStatus(404);
       }
@@ -57,14 +57,11 @@ TracksRouter.get('/:id', async (req, res) => {
   }
 });
 
-TracksRouter.post('/', auth,async (req, res, next) => {
+TracksRouter.post('/', auth, async (req, res, next) => {
   try {
-  const track = await Track.create({
-    name: req.body.name,
-    duration: req.body.duration,
-    album: req.body.album,
-    number:parseInt(req.body.number),
-  });
+    const track = await Track.create({
+      name: req.body.name, duration: req.body.duration, album: req.body.album, number: parseInt(req.body.number),
+    });
     return res.send(track);
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
@@ -75,26 +72,26 @@ TracksRouter.post('/', auth,async (req, res, next) => {
   }
 });
 
-TracksRouter.delete('/:id',auth,permit('admin'), async (req,res,next) => {
-  try{
-    const track = await Track.deleteOne({_id:req.params.id});
+TracksRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
+  try {
+    const track = await Track.deleteOne({_id: req.params.id});
     return res.send(track);
-  }catch (e){
+  } catch (e) {
     console.log(e);
     return next(e);
   }
 });
 
-TracksRouter.patch('/:id/togglePublished',auth, permit('admin'),async (req,res,next) => {
+TracksRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, res, next) => {
   try {
-    const track = await Track.findOne({_id:req.params.id});
-    if(track) {
-      const upTrack = await Track.findOneAndUpdate({_id:req.params.id},{isPublished:!track.isPublished})
-      return  res.send(upTrack);
+    const track = await Track.findOne({_id: req.params.id});
+    if (track) {
+      const upTrack = await Track.findOneAndUpdate({_id: req.params.id}, {isPublished: !track.isPublished})
+      return res.send(upTrack);
     } else {
-      return res.status(404).send({'message':'not found'});
+      return res.status(404).send({'message': 'not found'});
     }
-  }catch (e){
+  } catch (e) {
     console.log(e);
     return next(e);
   }

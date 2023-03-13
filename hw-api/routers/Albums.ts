@@ -34,13 +34,16 @@ AlbumsRouter.get('/:id', async (req, res) => {
   try {
     const token = req.get('Authorization');
     const user = await User.findOne({token});
-    if(user) {
-      if(user.role === 'admin') {
-        const album = await Album.find({artist: req.params.id}).sort({year:-1}).populate('artist', 'name');
+    if (user) {
+      if (user.role === 'admin') {
+        const album = await Album.find({artist: req.params.id}).sort({year: -1}).populate('artist', 'name');
         return res.send(album);
       }
     }
-    const album = await Album.find({artist: req.params.id, isPublished: true}).sort({year:-1}).populate('artist', 'name');
+    const album = await Album.find({
+      artist: req.params.id,
+      isPublished: true
+    }).sort({year: -1}).populate('artist', 'name');
     return res.send(album);
   } catch {
     return res.sendStatus(500);
@@ -48,14 +51,14 @@ AlbumsRouter.get('/:id', async (req, res) => {
 
 });
 
-AlbumsRouter.post('/', auth,imagesUpload.single('image'), async (req, res, next) => {
+AlbumsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next) => {
   try {
-  const album = await Album.create({
-    name: req.body.name,
-    artist: req.body.artist,
-    image: req.file ? req.file.filename : null,
-    year: parseFloat(req.body.year),
-  });
+    const album = await Album.create({
+      name: req.body.name,
+      artist: req.body.artist,
+      image: req.file ? req.file.filename : null,
+      year: parseFloat(req.body.year),
+    });
     return res.send(album);
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
@@ -66,26 +69,26 @@ AlbumsRouter.post('/', auth,imagesUpload.single('image'), async (req, res, next)
   }
 });
 
-AlbumsRouter.delete('/:id',auth,permit('admin'), async (req,res,next) => {
-  try{
-    const album = await Album.deleteOne({_id:req.params.id});
-    await Track.deleteMany({album:req.params.id});
+AlbumsRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
+  try {
+    const album = await Album.deleteOne({_id: req.params.id});
+    await Track.deleteMany({album: req.params.id});
     return res.send(album);
-  }catch (e){
+  } catch (e) {
     console.log(e);
     return next(e);
   }
 });
-AlbumsRouter.patch('/:id/togglePublished',auth,permit('admin') ,async (req,res,next) => {
+AlbumsRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, res, next) => {
   try {
-    const album = await Album.findOne({_id:req.params.id});
-    if(album) {
-      const upAlbum = await Album.findOneAndUpdate({_id:req.params.id},{isPublished:!album.isPublished})
-     return  res.send(upAlbum);
+    const album = await Album.findOne({_id: req.params.id});
+    if (album) {
+      const upAlbum = await Album.findOneAndUpdate({_id: req.params.id}, {isPublished: !album.isPublished})
+      return res.send(upAlbum);
     } else {
-      return res.status(404).send({'message':'not found'});
+      return res.status(404).send({'message': 'not found'});
     }
-  }catch (e){
+  } catch (e) {
     console.log(e);
     return next(e);
   }

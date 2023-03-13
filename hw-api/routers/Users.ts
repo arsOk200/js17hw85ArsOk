@@ -34,21 +34,21 @@ UsersRouter.post('/sessions', async (req, res) => {
 });
 
 
-UsersRouter.delete('/sessions', async (req,res,next) => {
+UsersRouter.delete('/sessions', async (req, res, next) => {
   try {
     const token = req.get('Authorization');
-    const success = {message:'ok'};
-    if(!token) {
+    const success = {message: 'ok'};
+    if (!token) {
       return res.send(success);
     }
     const user = await User.findOne({token});
-    if(!user) {
+    if (!user) {
       return res.send(success);
     }
     user.generateToken();
     await user.save();
     return res.send(success);
-  }catch (e){
+  } catch (e) {
     return next(e)
   }
 });
