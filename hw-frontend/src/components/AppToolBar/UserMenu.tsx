@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Menu, MenuItem } from '@mui/material';
 import {User} from "../../types";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../../app/hooks";
 import {logout} from "../../features/user/userThunks";
 
@@ -12,6 +12,7 @@ interface Props {
 
 const UserMenu: React.FC<Props> = ({user}) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -22,6 +23,7 @@ const UserMenu: React.FC<Props> = ({user}) => {
   };
   const handleLogout = () => {
     dispatch(logout());
+    navigate('/login');
   };
 
   return (

@@ -102,7 +102,6 @@ const TracksSlice = createSlice({
 export const TracksReducer = TracksSlice.reducer;
 export const selectTracks = (state:RootState) => state.tracks.tracks;
 export const creatingTrack = (state:RootState) => state.tracks.creatingTrack;
-export const selectTracksAdding = (state:RootState) => state.tracks.trackAdd;
 export const selectDeletingTrack = (state:RootState) => state.tracks.deletingTrack;
 export const selectPublishingTrack = (state:RootState) => state.tracks.publishingTrack;
 export const selectHistory = (state:RootState) => state.tracks.history;

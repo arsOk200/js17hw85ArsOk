@@ -4,9 +4,8 @@ import {imagesUpload} from "../multer";
 import mongoose from "mongoose";
 import auth from "../middleware/auth";
 import permit from "../middleware/permit";
-
-
-
+import User from "../models/User";
+import Track from "../models/Track";
 
 const AlbumsRouter = express.Router();
 
@@ -33,7 +32,15 @@ AlbumsRouter.get('/', async (req, res) => {
 
 AlbumsRouter.get('/:id', async (req, res) => {
   try {
-    const album = await Album.find({artist: req.params.id}).sort({year:-1}).populate('artist', 'name');
+    const token = req.get('Authorization');
+    const user = await User.findOne({token});
+    if(user) {
+      if(user.role === 'admin') {
+        const album = await Album.find({artist: req.params.id}).sort({year:-1}).populate('artist', 'name');
+        return res.send(album);
+      }
+    }
+    const album = await Album.find({artist: req.params.id, isPublished: true}).sort({year:-1}).populate('artist', 'name');
     return res.send(album);
   } catch {
     return res.sendStatus(500);
@@ -62,6 +69,7 @@ AlbumsRouter.post('/', auth,imagesUpload.single('image'), async (req, res, next)
 AlbumsRouter.delete('/:id',auth,permit('admin'), async (req,res,next) => {
   try{
     const album = await Album.deleteOne({_id:req.params.id});
+    await Track.deleteMany({album:req.params.id});
     return res.send(album);
   }catch (e){
     console.log(e);
