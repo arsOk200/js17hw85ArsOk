@@ -11,6 +11,7 @@ Track_HistoryRouter.get('/',auth, async (req, res) => {
     const user = await User.findOne({token});
     if(user) {
       const result = await TrackHistory.find({user:user._id.toString()}).sort({datetime:-1}).populate('track', 'name duration album');
+      console.log(result);
       return res.send(result);
     }
   } catch (e) {

@@ -1,6 +1,6 @@
 import {Album} from "../../types";
 import {createSlice} from "@reduxjs/toolkit";
-import {createAlbum, fetchAlbums, fetchAllAlbums, fetchOneAlbum} from "./albumThunks";
+import {createAlbum, DeleteAlbum, fetchAlbums, fetchAllAlbums, fetchOneAlbum, PublishAlbum} from "./albumThunks";
 import {RootState} from "../../app/store";
 
 interface AlbumState {
@@ -11,6 +11,8 @@ interface AlbumState {
   albumCreating:boolean;
   albumsWithoutId:Album[];
   albumsWithoutIdFetching:boolean;
+  deletingAlbum:false| string;
+  publishingAlbum:false|string;
 }
 const initialState:AlbumState = {
   albums: [],
@@ -20,6 +22,8 @@ const initialState:AlbumState = {
   albumCreating:false,
   albumsWithoutId:[],
   albumsWithoutIdFetching:false,
+  deletingAlbum:false,
+  publishingAlbum:false,
 }
 
 const AlbumSlice = createSlice({
@@ -70,6 +74,26 @@ const AlbumSlice = createSlice({
     builder.addCase(fetchAllAlbums.rejected, (state) => {
       state.albumsWithoutIdFetching = false;
     });
+
+    builder.addCase(DeleteAlbum.pending, (state,{meta:{arg:albumID}}) => {
+      state.deletingAlbum = albumID;
+    });
+    builder.addCase(DeleteAlbum.fulfilled, (state) => {
+      state.deletingAlbum = false;
+    });
+    builder.addCase(DeleteAlbum.rejected, (state) => {
+      state.deletingAlbum = false;
+    });
+
+    builder.addCase(PublishAlbum.pending, (state,{meta:{arg:albumID}}) => {
+      state.publishingAlbum = albumID;
+    });
+    builder.addCase(PublishAlbum.fulfilled, (state) => {
+      state.publishingAlbum = false;
+    });
+    builder.addCase(PublishAlbum.rejected, (state) => {
+      state.publishingAlbum = false;
+    });
   },
 });
 
@@ -80,4 +104,6 @@ export const selectOneAlbumFetching = (state:RootState) => state.albums.oneAlbum
 export const selectAlbumsFetching = (state:RootState) => state.albums.albumFetching;
 export const selectAlbumCreating = (state:RootState) => state.albums.albumCreating;
 export const selectAlbumsWithoutID = (state:RootState) => state.albums.albumsWithoutId;
+export const selectAlbumDeleting = (state:RootState) => state.albums.deletingAlbum;
+export const selectAlbumPublishing = (state:RootState) => state.albums.publishingAlbum;
 export const selectAlbumsWithoutIDFetching = (state:RootState) => state.albums.albumsWithoutIdFetching;

@@ -13,12 +13,14 @@ export interface Album{
   artist:{
     name:string
   }
+  isPublished:boolean;
 }
 export interface Track{
   name:string;
   number:number;
   duration:string;
   _id:string;
+  isPublished:boolean;
 }
 export interface RegisterMutation{
   username:string;

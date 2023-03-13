@@ -9,7 +9,8 @@ const AlbumSchema = new Schema({
   },
   artist: {
     type: Schema.Types.ObjectId, ref: 'Artist', required: true, validate: {
-      validator: async (value: Types.ObjectId) => Artist.findById(value), message: 'artist does not exist'
+      validator: async (value: Types.ObjectId) => Artist.findById(value).populate('name'),
+      message: 'artist does not exist'
     },
     },
   year: {

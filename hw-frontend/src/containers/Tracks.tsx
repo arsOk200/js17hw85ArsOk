@@ -3,8 +3,13 @@ import {useAppDispatch, useAppSelector} from "../app/hooks";
 import { useParams} from "react-router-dom";
 import TracksItem from "../components/tracks/tracksItem";
 import {Grid} from "@mui/material";
-import {selectTracks, selectTracksFetching} from "../features/tracks/TracksSlice";
-import {addTrackToHistory, fetchTracks} from "../features/tracks/TracksThunks";
+import {
+  selectDeletingTrack,
+  selectPublishingTrack,
+  selectTracks,
+  selectTracksFetching
+} from "../features/tracks/TracksSlice";
+import {addTrackToHistory, DeleteTrack, fetchTracks, PublishTrack} from "../features/tracks/TracksThunks";
 import Spinner from "../components/Spinner/Spinner";
 import { selectOneAlbum, selectOneAlbumFetching} from "../features/albums/AlbumSlice";
 import {fetchOneAlbum} from "../features/albums/albumThunks";
@@ -19,6 +24,8 @@ const Tracks:React.FC = () => {
   const album = useAppSelector(selectOneAlbum);
   const albumFetching = useAppSelector(selectOneAlbumFetching);
   const fetching = useAppSelector(selectTracksFetching);
+  const deleting = useAppSelector(selectDeletingTrack);
+  const publishing = useAppSelector(selectPublishingTrack);
   let cardImage = notImageAvailable;
   if(album?.image) {
     cardImage = apiUrl+'/'+album.image;
@@ -30,6 +37,16 @@ const Tracks:React.FC = () => {
 
   const addTrack = async (id:string) => {
     dispatch(addTrackToHistory(id));
+  };
+
+  const publishTrack = async (idFunct: string) => {
+    await dispatch(PublishTrack(idFunct));
+    await dispatch(fetchTracks(id));
+  }
+
+  const deleteTrack = async (idFunct: string) => {
+    await dispatch(DeleteTrack(idFunct));
+    await dispatch(fetchTracks(id));
   }
 
   return (
@@ -58,7 +75,13 @@ const Tracks:React.FC = () => {
                       number={track.number}
                       name={track.name}
                       addTrack={()=> addTrack(track._id)}
+                      isPublished={track.isPublished}
                       key={track._id}
+                      id={track._id}
+                      publishing={publishing}
+                      deleting={deleting}
+                      deletingFunction={() => deleteTrack(track._id)}
+                      publishingFunction={() => publishTrack(track._id)}
           />
         ))}
       </Grid>

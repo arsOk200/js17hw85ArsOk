@@ -48,7 +48,7 @@ const NewAlbum:React.FC<Props> = ({onSubmit,creating}) => {
     <form autoComplete="off"
           onSubmit={submitForm}>
       <Grid container direction="column" spacing={2}>
-        <Grid item width={'10%'}>
+        <Grid item width={'30%'}>
           <TextField
             fullWidth
             select

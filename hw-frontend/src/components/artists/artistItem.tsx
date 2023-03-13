@@ -17,9 +17,12 @@ interface Props{
   image:string;
   isPublished:boolean;
   publish:React.MouseEventHandler;
+  deleting:React.MouseEventHandler;
+  publishing:false | string;
+  deletingForDis:false | string;
 }
 
-const ArtistItem:React.FC<Props> = ({name,description,id,image,isPublished,publish}) => {
+const ArtistItem:React.FC<Props> = ({name,description,id,image,isPublished,publish,deleting,publishing,deletingForDis}) => {
   const user =  useAppSelector(selectUser);
   let cardImage = notImageAvailable;
   if(image) {
@@ -30,10 +33,10 @@ const ArtistItem:React.FC<Props> = ({name,description,id,image,isPublished,publi
 
   if(user?.role === 'admin') {
     buttons = (<Grid container justifyContent={'space-around'}  alignItems={'center'}>
-      {isPublished ? (<Button onClick={publish} type={'button'} color={'warning'} variant={'contained'}>Not publish</Button>) :
-        <Button type={'button'} onClick={publish} color={'success'} variant={'contained'}>Publish</Button>}
+      {isPublished ? (<Button onClick={publish} disabled={publishing ? publishing === id : false} type={'button'} color={'warning'} variant={'contained'}>Not publish</Button>) :
+        <Button type={'button'} onClick={publish} disabled={publishing ? publishing === id : false} color={'success'} variant={'contained'}>Publish</Button>}
 
-      <Button type={'button'} color={'error'} variant={'contained'}>Delete</Button>
+      <Button type={'button'} disabled={deletingForDis ? deletingForDis === id : false} color={'error'} onClick={deleting} variant={'contained'}>Delete</Button>
     </Grid>);
   }
     return (

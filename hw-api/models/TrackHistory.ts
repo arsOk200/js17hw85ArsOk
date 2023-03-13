@@ -12,17 +12,17 @@ const TrackHistorySchema = new Schema({
       message:'user does not exist'
     },
   },
+  datetime: {
+    type: Date, required: true,
+  },
   track: {
     type: String, ref:'Track',
     required:true,
     validate:{
       validator:async (value:Types.ObjectId) => Track.findById(value),
-      message:'track does not exist'
+      message:'track does not exist',
     },
   },
-  datetime: {
-    type: Date, required: true,
-  }
 });
 
 const TrackHistory = mongoose.model('TrackHistory', TrackHistorySchema);

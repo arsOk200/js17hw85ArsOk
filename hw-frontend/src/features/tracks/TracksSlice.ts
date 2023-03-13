@@ -1,7 +1,14 @@
 import {Track, TrackHistory} from "../../types";
 import {createSlice} from "@reduxjs/toolkit";
 import {RootState} from "../../app/store";
-import {addTrackToHistory, createTrack, fetchTrackHistory, fetchTracks} from "./TracksThunks";
+import {
+  addTrackToHistory,
+  createTrack,
+  DeleteTrack,
+  fetchTrackHistory,
+  fetchTracks,
+  PublishTrack
+} from "./TracksThunks";
 
 interface TracksState{
   tracks:Track[];
@@ -10,6 +17,8 @@ interface TracksState{
   history: TrackHistory[];
   historyLoading:boolean;
   creatingTrack:boolean;
+  deletingTrack:false | string;
+  publishingTrack:false |string;
 }
 
 const initialState:TracksState = {
@@ -19,6 +28,8 @@ const initialState:TracksState = {
   trackAdd:false,
   tracksFetching:false,
   creatingTrack:false,
+  deletingTrack:false,
+  publishingTrack:false,
 }
 
 const TracksSlice = createSlice({
@@ -64,7 +75,27 @@ const TracksSlice = createSlice({
     });
     builder.addCase(createTrack.rejected, (state) => {
       state.creatingTrack = false;
-    })
+    });
+
+    builder.addCase(DeleteTrack.pending , (state, {meta:{arg:trackID}}) => {
+      state.deletingTrack = trackID;
+    });
+    builder.addCase(DeleteTrack.fulfilled , (state) => {
+      state.deletingTrack = false;
+    });
+    builder.addCase(DeleteTrack.rejected , (state) => {
+      state.deletingTrack = false;
+    });
+
+    builder.addCase(PublishTrack.pending , (state, {meta:{arg:trackID}}) => {
+      state.publishingTrack = trackID;
+    });
+    builder.addCase(PublishTrack.fulfilled , (state) => {
+      state.publishingTrack = false;
+    });
+    builder.addCase(PublishTrack.rejected , (state) => {
+      state.publishingTrack = false;
+    });
   },
 });
 
@@ -72,6 +103,8 @@ export const TracksReducer = TracksSlice.reducer;
 export const selectTracks = (state:RootState) => state.tracks.tracks;
 export const creatingTrack = (state:RootState) => state.tracks.creatingTrack;
 export const selectTracksAdding = (state:RootState) => state.tracks.trackAdd;
+export const selectDeletingTrack = (state:RootState) => state.tracks.deletingTrack;
+export const selectPublishingTrack = (state:RootState) => state.tracks.publishingTrack;
 export const selectHistory = (state:RootState) => state.tracks.history;
 export const selectHistoryLoading = (state:RootState) => state.tracks.historyLoading;
 export const selectTracksFetching = (state:RootState) => state.tracks.tracksFetching;
