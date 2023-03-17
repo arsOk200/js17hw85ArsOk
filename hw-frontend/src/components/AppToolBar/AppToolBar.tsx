@@ -16,6 +16,7 @@ const Link = styled(NavLink)({
 
 const AppToolbar = () => {
   const user = useAppSelector(selectUser);
+
   return (
     <AppBar position="sticky" sx={{mb: 2, bgcolor:'#252525'}}>
       <Toolbar>

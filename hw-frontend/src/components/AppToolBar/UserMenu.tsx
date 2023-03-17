@@ -32,7 +32,8 @@ const UserMenu: React.FC<Props> = ({user}) => {
         onClick={handleClick}
         color="inherit"
       >
-        Hello, {user.username}
+        Hello, {user.displayName}
+        <img style={{marginLeft:'13px',width:'30px', height:'30px',borderRadius:'50%'}} src={user.avatar} alt={user.displayName}/>
       </Button>
       <Menu
         anchorEl={anchorEl}

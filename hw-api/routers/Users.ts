@@ -66,6 +66,7 @@ UsersRouter.post("/google", async (req, res, next) => {
         avatar:avatar,
       })
     }
+    console.log(user);
     user.generateToken();
     await user.save();
     return res.send({ message: "Login with Google successful!", user });

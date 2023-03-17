@@ -41,6 +41,8 @@ export interface User {
   username:string;
   token:string;
   role:string;
+  avatar:string;
+  displayName:string;
 }
 export interface RegisterResponse {
   message:string;
