@@ -6,6 +6,7 @@ import {LoginMutation} from "../types";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
 import {login} from "../features/user/userThunks";
 import {selectLoginError} from "../features/user/userSlice";
+import {GoogleLogin} from "@react-oauth/google";
 
 
 const Login = () => {
@@ -44,6 +45,14 @@ const Login = () => {
         <Typography component="h1" variant="h5">
           Login
         </Typography>
+        <Box sx={{pt:2}}>
+          <GoogleLogin onSuccess={(credentialResponse) => {
+          console.log(credentialResponse)}}
+          onError={() => {
+          console.log('login failed')}
+          }/>
+
+        </Box>
         {error&&(
           <Alert severity='error' sx={{mt:3,width:'100%'}}>
             {error.error}
