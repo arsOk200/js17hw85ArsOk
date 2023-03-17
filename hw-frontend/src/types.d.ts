@@ -25,6 +25,8 @@ export interface Track{
 export interface RegisterMutation{
   username:string;
   password:string;
+  displayName:string;
+  image:File | null;
 }
 export interface TrackHistory{
   _id:string;
@@ -41,8 +43,9 @@ export interface User {
   username:string;
   token:string;
   role:string;
-  avatar:string;
+  image:string | null;
   displayName:string;
+  googleId?:string;
 }
 export interface RegisterResponse {
   message:string;

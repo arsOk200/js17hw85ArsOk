@@ -4,14 +4,18 @@ import User from "../models/User";
 import {OAuth2Client} from "google-auth-library";
 import config from "../config";
 import * as crypto from "crypto";
+import {imagesUpload} from "../multer";
 
 const UsersRouter = express.Router();
 const client = new OAuth2Client(config.google.clientId);
 
-UsersRouter.post('/', async (req, res, next) => {
+UsersRouter.post('/', imagesUpload.single('image'),async (req, res, next) => {
   try {
     const user = new User({
-      username: req.body.username, password: req.body.password,
+      username: req.body.username,
+      password: req.body.password,
+      displayName:req.body.displayName,
+      image:req.file ? req.file.filename : null,
     });
     user.generateToken();
     await user.save();
@@ -20,6 +24,7 @@ UsersRouter.post('/', async (req, res, next) => {
     if (error instanceof mongoose.Error.ValidationError) {
       return res.status(400).send(error);
     }
+
     return next(error);
   }
 });
@@ -63,10 +68,9 @@ UsersRouter.post("/google", async (req, res, next) => {
         password: crypto.randomUUID(),
         googleId: googleId,
         displayName:displayName,
-        avatar:avatar,
+        image:avatar,
       })
     }
-    console.log(user);
     user.generateToken();
     await user.save();
     return res.send({ message: "Login with Google successful!", user });

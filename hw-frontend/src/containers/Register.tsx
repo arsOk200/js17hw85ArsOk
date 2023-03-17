@@ -6,6 +6,7 @@ import {useAppDispatch, useAppSelector} from "../app/hooks";
 import {RegisterMutation} from "../types";
 import {selectRegisterError} from "../features/user/userSlice";
 import {register} from "../features/user/userThunks";
+import FileInput from "../components/FileInput/FileInput";
 
 
 const Register = () => {
@@ -16,6 +17,8 @@ const Register = () => {
   const [state, setState] = useState<RegisterMutation>({
     username:'',
     password:'',
+    displayName:'',
+    image:null,
   });
 
   const inputChangeHandler = (event:React.ChangeEvent<HTMLInputElement>) => {
@@ -32,6 +35,13 @@ const Register = () => {
       console.log(e);
     }
   }
+  const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: files && files[0] ? files[0] : null,
+    }));
+  };
 
   const getFieldError = (fieldName:string) => {
     try {
@@ -72,6 +82,17 @@ const Register = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={Boolean(getFieldError('displayName'))}
+                helperText={getFieldError('displayName')}
+                required
+                label="Display name"
+                name="displayName"
+                value={state.displayName}
+                onChange={inputChangeHandler}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
                 required
                 name="password"
                 label="Password"
@@ -82,6 +103,11 @@ const Register = () => {
                 error={Boolean(getFieldError('password'))}
                 helperText={getFieldError('password')}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <FileInput
+                onChange={fileInputChangeHandler}
+                name="image" label="Avatar"/>
             </Grid>
           </Grid>
           <Button

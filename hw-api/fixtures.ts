@@ -281,13 +281,15 @@ const run = async () => {
     username: "user",
     password: "user",
     token: crypto.randomUUID(),
-    role:'user'
+    role:'user',
+    displayName:'user',
   });
   await User.create({
     username: "admin",
     password: "admin",
     token: crypto.randomUUID(),
-    role:'admin'
+    role:'admin',
+    displayName:'admin',
   });
 
   await db.close();

@@ -4,6 +4,8 @@ import {User} from "../../types";
 import {NavLink, useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../../app/hooks";
 import {logout} from "../../features/user/userThunks";
+import notImageAvailable from "../../assets/noImageAvailibleImages/No_Image_Available (1).jpg";
+import {apiUrl} from "../../constants";
 
 
 interface Props {
@@ -17,7 +19,6 @@ const UserMenu: React.FC<Props> = ({user}) => {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -26,6 +27,14 @@ const UserMenu: React.FC<Props> = ({user}) => {
     navigate('/login');
   };
 
+  let cardImage = notImageAvailable;
+  if(user.image) {
+    cardImage = apiUrl+'/'+user.image;
+  }
+
+  if(user.googleId && user.image) {
+    cardImage = user.image;
+  }
   return (
     <>
       <Button
@@ -33,7 +42,7 @@ const UserMenu: React.FC<Props> = ({user}) => {
         color="inherit"
       >
         Hello, {user.displayName}
-        <img style={{marginLeft:'13px',width:'30px', height:'30px',borderRadius:'50%'}} src={user.avatar} alt={user.displayName}/>
+        <img style={{width:'30px', height:'30px', marginLeft:'13px', borderRadius:'50%'}} src={cardImage} alt={user.displayName}/>
       </Button>
       <Menu
         anchorEl={anchorEl}
